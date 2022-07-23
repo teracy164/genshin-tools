@@ -1,14 +1,10 @@
 <template>
     <select>
-        <option v-for="artifact of Object.values(artifacts)">{{ artifact.name }}</option>
+        <option v-for="artifact of artifacts">{{ artifact[lang] }}</option>
     </select>
 </template>
 <script setup lang="ts">
-import { ArtifactDetails } from '~~/constants/artifacts';
-
-/** TODO */
-const lang = 'ja';
-const artifacts = ArtifactDetails[lang];
-
-
+const { $dictionary, $language } = useNuxtApp();
+const artifacts = $dictionary.artifacts
+const lang = $language.selected;
 </script>
