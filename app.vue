@@ -35,16 +35,6 @@ const changeLanguage = (event: Event) => {
 }
 </script>
 <style lang="scss">
-html,
-body {
-  margin: 0;
-  height: 100%;
-}
-
-body {
-  background-color: #fff8f8;
-}
-
 header {
   background-color: #fff0f0;
   box-shadow: 1px 0px 5px 0px lightgray;
