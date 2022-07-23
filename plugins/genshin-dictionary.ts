@@ -32,7 +32,6 @@ export class GenshinDictionary {
       'circlet-of-logos',
     ];
     this._artifacts = data.filter((d) => !excludesArtifacts.includes(d.id) && d.tags?.includes('artifact'));
-    console.log(this._artifacts);
   }
 }
 
