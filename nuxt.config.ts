@@ -4,7 +4,7 @@ import { defineNuxtConfig } from 'nuxt';
 export default defineNuxtConfig({
   app: {
     baseURL: process.env.BASE_URL,
-    cdnURL: process.env.BASE_URL,
+    cdnURL: '/genshin-tools/',
   },
   css: ['@/assets/css/styles.scss'],
 });
