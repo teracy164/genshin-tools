@@ -39,14 +39,18 @@ const changeSubOption = (event: Event, op: ArtifactSubOption) => {
     if (isNaN(value)) value = 0;
     if (value < 0) value = Math.abs(value);
 
-    op.score = Math.floor(value * 10) / 10;
+    const floor = (num: number) => Math.floor(num * 10) / 10
+
+    op.score = floor(value);
 
     if (Number(el.value) !== op.score) {
         el.value = `${value}`;
     }
 
     const targets = { cr: 2, cd: 1, ar: 1 }
-    artifact.score = artifact.sub.reduce((total, op) => total + (op.score || 0) * (targets[op.id] || 0), 0);
+    const score = artifact.sub.reduce((total, op) => total + (op.score || 0) * (targets[op.id] || 0), 0);
+    /** 誤差が発生するため小数点1桁で切り捨て */
+    artifact.score = floor(score);
 
     emit('change:subop');
 };
