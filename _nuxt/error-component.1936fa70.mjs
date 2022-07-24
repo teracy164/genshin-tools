@@ -1,0 +1,1 @@
+import{d as n,u as a,o,c,a as e,t as s,b as r}from"./entry.df4e5722.mjs";const l={style:{height:"100%",display:"flex","justify-content":"center","align-items":"center"}},d=n({__name:"error",setup(i){const t=a();return(u,p)=>(o(),c("div",l,[e("div",null,[e("p",null,s(r(t).statusCode),1),e("p",null,s(r(t).message),1)])]))}});export{d as default};
