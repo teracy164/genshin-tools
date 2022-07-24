@@ -1,6 +1,6 @@
 {
   "node_modules/nuxt/dist/app/entry.mjs": {
-    "file": "_nuxt/entry.fc913855.mjs",
+    "file": "_nuxt/entry.e8e2dd12.mjs",
     "src": "node_modules/nuxt/dist/app/entry.mjs",
     "isEntry": true,
     "dynamicImports": [
@@ -12,7 +12,7 @@
     ]
   },
   "virtual:nuxt:/home/runner/work/genshin-tools/genshin-tools/.nuxt/error-component.mjs": {
-    "file": "_nuxt/error-component.acf25236.mjs",
+    "file": "_nuxt/error-component.e85f82cc.mjs",
     "src": "virtual:nuxt:/home/runner/work/genshin-tools/genshin-tools/.nuxt/error-component.mjs",
     "isDynamicEntry": true,
     "imports": [
@@ -20,7 +20,7 @@
     ]
   },
   "pages/index.vue": {
-    "file": "_nuxt/index.cc8757c1.mjs",
+    "file": "_nuxt/index.ef550af8.mjs",
     "src": "pages/index.vue",
     "isDynamicEntry": true,
     "imports": [
