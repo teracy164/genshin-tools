@@ -25,10 +25,11 @@
     </div>
 </template>
 <script setup lang="ts">
-import { Artifact } from '~~/types/artifact';
+import { Artifact, ArtifactPiece } from '~~/types/artifact';
 
 const { $language } = useNuxtApp();
 
+const storageKeyData = 'genshin-storage-data';
 const subOptions = [
     { id: 'cr', ja: '会心率', en: 'CRIT Rate' },
     { id: 'cd', ja: '会心ダメ', en: 'CIT DMG' },
@@ -41,10 +42,23 @@ const subOptions = [
     { id: 'def', ja: '防御力', en: 'DEF' },
     { id: 'dr', ja: '防御力%', en: 'DEF%' },
 ];
-const storageKeyData = 'genshin-storage-data';
+
+const getInitData = (): { [key: string]: Artifact } => {
+    const pieces: ArtifactPiece[] = ['flower', 'plume', 'eon', 'goblet', 'circlet'];
+    return pieces.reduce((artifacts, piece) => {
+        artifacts[piece] = {
+            piece,
+            level: 0,
+            score: 0,
+            typeId: '',
+            sub: subOptions.map(op => ({ id: op.id, name: op[$language.selected], score: null, selected: false, }))
+        } as Artifact;
+        return artifacts;
+    }, {});
+}
 
 const totalScore = useState('totalScore', () => 0);
-let artifacts = useState<{ [key: string]: Artifact }>('artifacts', () => {
+const artifacts = useState<{ [key: string]: Artifact }>('artifacts', () => {
     // 前回値が存在する場合は復元
     const tmp = localStorage.getItem(storageKeyData);
     if (tmp) {
@@ -53,21 +67,6 @@ let artifacts = useState<{ [key: string]: Artifact }>('artifacts', () => {
         return getInitData();
     }
 });
-
-const getInitData = () => {
-    const data: { [key: string]: Artifact } = {
-        flower: { piece: 'flower', typeId: '', level: 0, score: 0, sub: [] },
-        plume: { piece: 'plume', typeId: '', level: 0, score: 0, sub: [] },
-        eon: { piece: 'eon', typeId: '', level: 0, score: 0, sub: [] },
-        goblet: { piece: 'goblet', typeId: '', level: 0, score: 0, sub: [] },
-        circlet: { piece: 'circlet', typeId: '', level: 0, score: 0, sub: [] },
-    };
-
-    Object.values(data).forEach(artifact => {
-        subOptions.forEach(op => artifact.sub.push({ id: op.id, name: op[$language.selected], score: null, selected: false }))
-    });
-    return data;
-}
 
 const update = () => {
     localStorage.setItem(storageKeyData, JSON.stringify(artifacts.value));
