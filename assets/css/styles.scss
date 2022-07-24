@@ -7,3 +7,14 @@ body {
 body {
   background-color: #fff8f8;
 }
+
+.score {
+  background-color: #ffcccc;
+  box-shadow: 1px 1px 3px lightgray;
+  border-radius: 20px;
+  margin: 0 10px;
+  padding: 0 5px;
+  min-width: 1.5em;
+  line-height: 2em;
+  text-align: center;
+}
