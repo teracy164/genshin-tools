@@ -4,11 +4,12 @@
             <h3>{{ getPieceName(artifact.piece) }}</h3>
             <span class="score">{{ artifact.score }}</span>
         </div>
-        <PickArtifacts :value="artifact.id" @chage="artifact.id = $event" />
+        <!-- <PickArtifacts :value="artifact.id" @chage="artifact.id = $event" /> -->
         <div class="sub-options">
             <div class="sub-option" :class="{ selected: op.selected }" v-for="op of artifact.sub">
-                <label @click="op.selected = !op.selected">
-                    <a>{{ op.name }}</a>
+                <label>
+                    <input :id="`check-${artifact.piece}-${op.name}`" type="checkbox" v-model="op.selected" />
+                    <label :for="`check-${artifact.piece}-${op.name}`">{{ op.name }}</label>
                 </label>
                 <input type="number" v-model="op.score" :disabled="!op.selected" @input="changeSubOption(artifact)" />
             </div>
@@ -57,6 +58,9 @@ const getPieceName = (piece: ArtifactPiece) => {
     .artifact-type {
         display: flex;
         justify-content: space-between;
+        border-bottom: 1px solid #dddddd;
+        margin-bottom: 10px;
+        padding-bottom: 5px;
 
         h3 {
             margin: 0;
@@ -98,7 +102,7 @@ const getPieceName = (piece: ArtifactPiece) => {
                 background-color: #eeeeee;
             }
 
-            input {
+            input[type=number] {
                 width: 5em;
             }
 

@@ -1,6 +1,6 @@
 <template>
-    <p>このサイトは以下サイトのデータを使用しています。</p>
-    <a target="_blank" href="https://genshin-dictionary.com/opendata/">https://genshin-dictionary.com/opendata/</a>
+    <!-- <p>このサイトは以下サイトのデータを使用しています。</p>
+    <a target="_blank" href="https://genshin-dictionary.com/opendata/">https://genshin-dictionary.com/opendata/</a> -->
 
     <div>
         <div class="title-area">
