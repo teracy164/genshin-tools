@@ -13,9 +13,6 @@ jobs:
         node: [14]
 
     steps:
-      - name: CNAME
-        run: touch CNAME && echo ${{ secrets.CNAME }} >> CNAME
-
       - name: Checkout
         uses: actions/checkout@master
 
