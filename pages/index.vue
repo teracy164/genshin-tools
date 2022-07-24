@@ -79,6 +79,9 @@ const calcTotalScore = () => {
     const score = Object.values(artifacts.value).reduce((total, artifact) => total + artifact.score, 0);
     totalScore.value = Math.floor(score * 10) / 10;
 }
+
+// 初期表示時の計算
+calcTotalScore();
 </script>
 <style scoped lang="scss">
 .title-area {
