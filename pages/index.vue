@@ -4,7 +4,7 @@
 
     <div>
         <div class="title-area">
-            <h2>聖遺物 - Artifacts</h2>
+            <h2>聖遺物スコア計算ツール</h2>
             <span class="score"
                 :class="{ good: totalScore >= 150, amazing: totalScore >= 190, god: totalScore >= 225 }">
                 {{ totalScore }}

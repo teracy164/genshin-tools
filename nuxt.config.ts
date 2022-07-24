@@ -3,6 +3,9 @@ import { defineNuxtConfig } from 'nuxt';
 export default defineNuxtConfig({
   app: {
     head: {
+      meta: [
+        { name: 'description', content: '原神の聖遺物スコア計算ツールです。簡単な入力で聖遺物の強さが判定できます。' },
+      ],
       link: [{ rel: 'icon', type: 'image/png', href: '/assets/favicon.ico' }],
     },
   },
