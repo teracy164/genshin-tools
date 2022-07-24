@@ -1,6 +1,7 @@
 # genshin-tools
 
-原神用のツールです
+This is tools for Genshin Impact.
+created by Nuxt.js(ver3).
 
 ## run local
 
