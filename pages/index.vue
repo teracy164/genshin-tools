@@ -19,7 +19,7 @@
         </div>
         <div style="display: flex; flex-wrap: wrap;">
             <template v-for="piece of Object.keys(artifacts)">
-                <ArtifactDetail :artifact="artifacts[piece]" @change:subop="calcTotalScore" />
+                <ArtifactDetail :artifact="artifacts[piece]" @change:subop="update" />
             </template>
         </div>
     </div>
@@ -41,8 +41,20 @@ const subOptions = [
     { id: 'def', ja: '防御力', en: 'DEF' },
     { id: 'dr', ja: '防御力%', en: 'DEF%' },
 ];
+const storageKeyData = 'genshin-storage-data';
+
 const totalScore = useState('totalScore', () => 0);
-const artifacts = useState<{ [key: string]: Artifact }>('artifacts', () => {
+let artifacts = useState<{ [key: string]: Artifact }>('artifacts', () => {
+    // 前回値が存在する場合は復元
+    const tmp = localStorage.getItem(storageKeyData);
+    if (tmp) {
+        return JSON.parse(tmp);
+    } else {
+        return getInitData();
+    }
+});
+
+const getInitData = () => {
     const data: { [key: string]: Artifact } = {
         flower: { piece: 'flower', typeId: '', level: 0, score: 0, sub: [] },
         plume: { piece: 'plume', typeId: '', level: 0, score: 0, sub: [] },
@@ -55,10 +67,19 @@ const artifacts = useState<{ [key: string]: Artifact }>('artifacts', () => {
         subOptions.forEach(op => artifact.sub.push({ id: op.id, name: op[$language.selected], score: null, selected: false }))
     });
     return data;
-});
+}
 
+const update = () => {
+    localStorage.setItem(storageKeyData, JSON.stringify(artifacts.value));
 
-const calcTotalScore = () => totalScore.value = Object.values(artifacts.value).reduce((total, artifact) => total + artifact.score, 0);
+    // 再計算
+    calcTotalScore();
+}
+
+const calcTotalScore = () => {
+    const score = Object.values(artifacts.value).reduce((total, artifact) => total + artifact.score, 0);
+    totalScore.value = Math.floor(score * 10) / 10;
+}
 </script>
 <style scoped lang="scss">
 .title-area {
