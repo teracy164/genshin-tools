@@ -14,7 +14,8 @@
                     <input :id="`check-${artifact.piece}-${op.name}`" type="checkbox" v-model="op.selected" />
                     <label :for="`check-${artifact.piece}-${op.name}`">{{ op.name }}</label>
                 </label>
-                <input type="number" :value="op.score" :disabled="!op.selected" @input="changeSubOption($event, op)" />
+                <input type="number" :value="op.score" :disabled="!op.selected" min="0"
+                    @input="changeSubOption($event, op)" />
             </div>
         </div>
     </div>
@@ -29,18 +30,19 @@ const props = defineProps({
 })
 const artifact = props.artifact as Artifact;
 
-const classes = useState('classes')
 const emit = defineEmits(['change:subop']);
 
 const changeSubOption = (event: Event, op: ArtifactSubOption) => {
     const el = event.target as HTMLInputElement
+
     let value = Number(el.value);
     if (isNaN(value)) value = 0;
     if (value < 0) value = Math.abs(value);
+
     op.score = Math.floor(value * 10) / 10;
+
     if (Number(el.value) !== op.score) {
         el.value = `${value}`;
-        console.log('fix value')
     }
 
     const targets = { cr: 2, cd: 1, ar: 1 }
