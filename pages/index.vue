@@ -6,7 +6,7 @@
         <div class="title-area">
             <h2>聖遺物スコア計算ツール</h2>
             <span class="score"
-                :class="{ good: totalScore >= 150, amazing: totalScore >= 190, god: totalScore >= 225 }">
+                :class="{ good: totalScore >= 140, amazing: totalScore >= 170, god: totalScore >= 200 }">
                 {{ totalScore }}
             </span>
         </div>
