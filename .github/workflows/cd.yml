@@ -12,6 +12,9 @@ jobs:
         node: [14]
 
     steps:
+      - name: echo env
+        run: echo $BASE_URL
+        
       - name: Checkout
         uses: actions/checkout@master
 
