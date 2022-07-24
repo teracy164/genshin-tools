@@ -5,6 +5,7 @@ on: [push, pull_request]
 jobs:
   cd:
     runs-on: ${{ matrix.os }}
+    environment: github-pages
 
     strategy:
       matrix:
