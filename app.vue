@@ -20,19 +20,20 @@
   </div>
 </template>
 <script setup lang="ts">
-import { LANGUAGE } from './plugins/language';
+// import { LANGUAGE } from './plugins/language';
 
-let isLoading = true;
+// TODO 現状、データ不要なためコメントアウトしておく
+let isLoading = false;
 
-const { $dictionary, $language } = useNuxtApp();
-await $dictionary.loadData();
+// const { $dictionary, $language } = useNuxtApp();
+// await $dictionary.loadData();
 
-isLoading = false;
+// isLoading = false;
 
-const changeLanguage = (event: Event) => {
-  const value = (event.target as HTMLInputElement).value as LANGUAGE;
-  $language.changeLanguage(value);
-}
+// const changeLanguage = (event: Event) => {
+//   const value = (event.target as HTMLInputElement).value as LANGUAGE;
+//   $language.changeLanguage(value);
+// }
 </script>
 <style lang="scss">
 header {
