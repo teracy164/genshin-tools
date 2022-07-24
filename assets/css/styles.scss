@@ -13,7 +13,8 @@ body {
 }
 
 .score {
-  background-color: #ffcccc;
+  color: white;
+  background-color: #999999;
   box-shadow: 1px 1px 3px lightgray;
   border-radius: 20px;
   margin: 0 10px;
@@ -21,4 +22,16 @@ body {
   min-width: 1.5em;
   line-height: 2em;
   text-align: center;
+
+  &.good {
+    background-color: #6666ff;
+  }
+
+  &.amazing {
+    background-color: #00cc00;
+  }
+
+  &.god {
+    background-color: #ff6666;
+  }
 }

@@ -1,5 +1,5 @@
 export type ArtifactPiece = 'flower' | 'plume' | 'eon' | 'goblet' | 'circlet';
-export interface SubOption {
+export interface ArtifactSubOption {
   id: string;
   name: string;
   score: number;
@@ -15,5 +15,5 @@ export interface Artifact {
   /** 聖遺物スコア */
   score: number;
   /** サブOP */
-  sub: SubOption[];
+  sub: ArtifactSubOption[];
 }

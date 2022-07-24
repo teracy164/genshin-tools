@@ -5,7 +5,16 @@
     <div>
         <div class="title-area">
             <h2>聖遺物 - Artifacts</h2>
-            <span class="score">{{ totalScore }}</span>
+            <span class="score"
+                :class="{ good: totalScore >= 150, amazing: totalScore >= 190, god: totalScore >= 225 }">
+                {{ totalScore }}
+            </span>
+        </div>
+        <div style="display:flex; align-items: center; flex-wrap: wrap;">
+            <p style="margin: 0">算出方法: 会心率 x 2 + 会心ダメージ + 攻撃力%</p>
+            <span class="score good">強い</span>
+            <span class="score amazing">超強い</span>
+            <span class="score god">神</span>
         </div>
         <div style="display: flex; flex-wrap: wrap;">
             <template v-for="piece of Object.keys(artifacts)">

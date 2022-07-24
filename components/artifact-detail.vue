@@ -2,7 +2,10 @@
     <div class="artifact">
         <div class="artifact-type">
             <h3>{{ getPieceName(artifact.piece) }}</h3>
-            <span class="score">{{ artifact.score }}</span>
+            <span class="score"
+                :class="{ good: artifact.score >= 30, amazing: artifact.score >= 40, god: artifact.score >= 50 }">
+                {{ artifact.score }}
+            </span>
         </div>
         <!-- <PickArtifacts :value="artifact.id" @chage="artifact.id = $event" /> -->
         <div class="sub-options">
@@ -11,13 +14,13 @@
                     <input :id="`check-${artifact.piece}-${op.name}`" type="checkbox" v-model="op.selected" />
                     <label :for="`check-${artifact.piece}-${op.name}`">{{ op.name }}</label>
                 </label>
-                <input type="number" v-model="op.score" :disabled="!op.selected" @input="changeSubOption(artifact)" />
+                <input type="number" :value="op.score" :disabled="!op.selected" @input="changeSubOption($event, op)" />
             </div>
         </div>
     </div>
 </template>
 <script setup lang="ts">
-import { Artifact, ArtifactPiece } from '~~/types/artifact';
+import { Artifact, ArtifactPiece, ArtifactSubOption } from '~~/types/artifact';
 
 const { $language } = useNuxtApp();
 
@@ -26,9 +29,20 @@ const props = defineProps({
 })
 const artifact = props.artifact as Artifact;
 
+const classes = useState('classes')
 const emit = defineEmits(['change:subop']);
 
-const changeSubOption = (artifact: Artifact) => {
+const changeSubOption = (event: Event, op: ArtifactSubOption) => {
+    const el = event.target as HTMLInputElement
+    let value = Number(el.value);
+    if (isNaN(value)) value = 0;
+    if (value < 0) value = Math.abs(value);
+    op.score = Math.floor(value * 10) / 10;
+    if (Number(el.value) !== op.score) {
+        el.value = `${value}`;
+        console.log('fix value')
+    }
+
     const targets = { cr: 2, cd: 1, ar: 1 }
     artifact.score = artifact.sub.reduce((total, op) => total + (op.score || 0) * (targets[op.id] || 0), 0);
 
@@ -65,22 +79,6 @@ const getPieceName = (piece: ArtifactPiece) => {
         h3 {
             margin: 0;
         }
-
-        .score {
-
-
-            &.good {
-                background-color: #ccccff;
-            }
-
-            &.super {
-                background-color: #ccccff;
-            }
-
-            &.god {
-                background-color: #ffcccc;
-            }
-        }
     }
 
     .sub-options {
@@ -103,7 +101,7 @@ const getPieceName = (piece: ArtifactPiece) => {
             }
 
             input[type=number] {
-                width: 5em;
+                width: 3em;
             }
 
             &.selected {
