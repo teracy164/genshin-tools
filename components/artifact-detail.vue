@@ -68,12 +68,13 @@ const getPieceName = (piece: ArtifactPiece) => {
 </script>
 <style lang="scss" scoped>
 .artifact {
-    margin: 5px;
+    margin: 2px;
     border: 1px solid #ffaaaa;
     border-radius: 10px;
     background-color: #ffeeee;
-    padding: 10px;
-    max-width: 15em;
+    padding: 5px;
+    max-width: 12em;
+    font-size: 0.9em;
 
     .artifact-type {
         display: flex;
@@ -83,7 +84,7 @@ const getPieceName = (piece: ArtifactPiece) => {
         padding-bottom: 5px;
 
         h3 {
-            margin: 0;
+            margin: 5px 0;
         }
     }
 

@@ -10,12 +10,14 @@
                 {{ totalScore }}
             </span>
         </div>
-        <div style="display:flex; align-items: center; flex-wrap: wrap;">
-            <p style="margin: 0">算出方法: 会心率 x 2 + 会心ダメージ + 攻撃力%</p>
-            <span class="score">30 &gt; 弱</span>
-            <span class="score good">30 &lt;= 良</span>
-            <span class="score amazing">40 &lt;= 強</span>
-            <span class="score god">50 &lt;= 神</span>
+        <div>
+            <p style="font-size: 0.9; margin: 0">算出: 会心率 x 2 + 会心ダメージ + 攻撃力%</p>
+            <div style="font-size: 0.8em;display: flex; flex-wrap: wrap;">
+                <span class="score">30 &gt; 弱</span>
+                <span class="score good">30 &lt;= 良</span>
+                <span class="score amazing">40 &lt;= 強</span>
+                <span class="score god">50 &lt;= 神</span>
+            </div>
         </div>
         <div style="display: flex; flex-wrap: wrap;">
             <template v-for="piece of Object.keys(artifacts)">
