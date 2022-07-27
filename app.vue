@@ -2,7 +2,7 @@
   <div v-if="isLoading">
     loading...
   </div>
-  <div v-else>
+  <div v-else style="height: 100%">
 
     <header>
       <h1>Genshin Tools</h1>
@@ -14,7 +14,7 @@
         </select> -->
       </div>
     </header>
-    <main>
+    <main style="height: 100%">
       <NuxtPage />
     </main>
   </div>
@@ -23,12 +23,12 @@
 // import { LANGUAGE } from './plugins/language';
 
 // TODO 現状、データ不要なためコメントアウトしておく
-let isLoading = false;
+let isLoading = true;
 
-// const { $dictionary, $language } = useNuxtApp();
-// await $dictionary.loadData();
+const { $dictionary, $language } = useNuxtApp();
+await $dictionary.loadData();
 
-// isLoading = false;
+isLoading = false;
 
 // const changeLanguage = (event: Event) => {
 //   const value = (event.target as HTMLInputElement).value as LANGUAGE;

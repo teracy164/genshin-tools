@@ -2,34 +2,30 @@
     <!-- <p>このサイトは以下サイトのデータを使用しています。</p>
     <a target="_blank" href="https://genshin-dictionary.com/opendata/">https://genshin-dictionary.com/opendata/</a> -->
 
-    <div>
+    <div ref="elMain" class="main">
         <div class="title-area">
-            <h2>聖遺物スコア計算ツール</h2>
+            <select @change="selectCharacter($event)">
+                <option></option>
+                <option v-for="c of $dictionary.characters" :value="c.id">{{ c[$language.selected] }}</option>
+            </select>
             <span class="score"
                 :class="{ good: totalScore >= 140, amazing: totalScore >= 170, god: totalScore >= 200 }">
                 {{ totalScore }}
             </span>
         </div>
-        <div>
-            <p style="font-size: 0.9; margin: 0">算出: 会心率 x 2 + 会心ダメージ + 攻撃力%</p>
-            <div style="font-size: 0.8em;display: flex; flex-wrap: wrap;">
-                <span class="score">30 &gt; 弱</span>
-                <span class="score good">30 &lt;= 良</span>
-                <span class="score amazing">40 &lt;= 強</span>
-                <span class="score god">50 &lt;= 神</span>
+        <div style="position: fixed; bottom: 0; max-width: 100%">
+            <div style="display: flex; flex-wrap: nowrap; overflow-x: auto;">
+                <template v-for="piece of Object.keys(artifacts)">
+                    <ArtifactDetail :artifact="artifacts[piece]" @change:subop="update" />
+                </template>
             </div>
-        </div>
-        <div style="display: flex; flex-wrap: wrap;">
-            <template v-for="piece of Object.keys(artifacts)">
-                <ArtifactDetail :artifact="artifacts[piece]" @change:subop="update" />
-            </template>
         </div>
     </div>
 </template>
 <script setup lang="ts">
 import { Artifact, ArtifactPiece } from '~~/types/artifact';
 
-const { $language } = useNuxtApp();
+const { $dictionary, $language } = useNuxtApp();
 
 const storageKeyData = 'genshin-storage-data';
 const subOptions = [
@@ -44,6 +40,8 @@ const subOptions = [
     { id: 'def', ja: '防御力', en: 'DEF' },
     { id: 'dr', ja: '防御力%', en: 'DEF%' },
 ];
+const param = reactive({ img: '' });
+const elMain = ref<HTMLDivElement>(null);
 
 const getInitData = (): { [key: string]: Artifact } => {
     const pieces: ArtifactPiece[] = ['flower', 'plume', 'eon', 'goblet', 'circlet'];
@@ -82,10 +80,27 @@ const calcTotalScore = () => {
     totalScore.value = Math.floor(score * 10) / 10;
 }
 
+const selectCharacter = (event: Event) => {
+    const characterId = (event.target as HTMLSelectElement).value;
+    const target = $dictionary.characters.find(c => c.id === characterId);
+    if (target) {
+        const name = target.zhCN.split('·')[0];
+        param.img = `https://bbs.hoyolab.com/hoyowiki/picture/character/${name}/avatar.png`;
+        elMain.value.style.backgroundImage = `url('${param.img}')`;
+    }
+    console.log(target, param.img)
+}
+
 // 初期表示時の計算
 calcTotalScore();
 </script>
 <style scoped lang="scss">
+.main {
+    height: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
 .title-area {
     display: flex;
     align-items: center;

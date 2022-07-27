@@ -1,13 +1,15 @@
 <template>
-    <div class="artifact">
+    <div ref="elArtifact" class="artifact">
         <div class="artifact-type">
-            <h3>{{ getPieceName(artifact.piece) }}</h3>
-            <span class="score"
-                :class="{ good: artifact.score >= 30, amazing: artifact.score >= 40, god: artifact.score >= 50 }">
-                {{ artifact.score }}
-            </span>
+            <div class="wrapper">
+                <h3>{{ getPieceName(artifact.piece) }}</h3>
+                <span class="score"
+                    :class="{ good: artifact.score >= 30, amazing: artifact.score >= 40, god: artifact.score >= 50 }">
+                    {{ artifact.score }}
+                </span>
+            </div>
+            <PickArtifacts :artifact="artifact" @change="changeArtifact" />
         </div>
-        <!-- <PickArtifacts :value="artifact.id" @chage="artifact.id = $event" /> -->
         <div class="sub-options">
             <div class="sub-option" :class="{ selected: op.selected }" v-for="op of artifact.sub">
                 <label>
@@ -22,13 +24,14 @@
 </template>
 <script setup lang="ts">
 import { Artifact, ArtifactPiece, ArtifactSubOption } from '~~/types/artifact';
+import { GenshinOpenData } from '~~/types/genshin-data';
 
 const { $language } = useNuxtApp();
 
-const props = defineProps({
-    artifact: Object
-})
+const props = defineProps({ artifact: Object });
 const artifact = props.artifact as Artifact;
+const param = reactive({ img: '' });
+const elArtifact = ref<HTMLDivElement>(null);
 
 const emit = defineEmits(['change:subop']);
 
@@ -63,29 +66,49 @@ const getPieceName = (piece: ArtifactPiece) => {
         'goblet': { ja: '杯', en: 'Goblet' },
         'circlet': { ja: '冠', en: 'Circlet' },
     };
+    console.log(piece)
     return names[piece][$language.selected];
 };
+
+const changeArtifact = (src: GenshinOpenData.GenshinRecord) => {
+    const pieces = {
+        'flower': 'flower_of_life',
+        'plume': 'plume_of_death',
+        'eon': 'sands_of_eon',
+        'goblet': 'goblet_of_eonothem',
+        'circlet': 'circlet_of_logos',
+    };
+    param.img = `https://bbs.hoyolab.com/hoyowiki/picture/reliquary/${src.en}/${pieces[artifact.piece]}_icon.png`
+    elArtifact.value.style.backgroundImage = `url('${param.img}')`;
+}
 </script>
 <style lang="scss" scoped>
 .artifact {
     margin: 2px;
     border: 1px solid #ffaaaa;
     border-radius: 10px;
-    background-color: #ffeeee;
+    background-color: rgba(255, 200, 200, 0.6);
     padding: 5px;
     max-width: 12em;
     font-size: 0.9em;
+    background-size: cover;
 
     .artifact-type {
-        display: flex;
-        justify-content: space-between;
         border-bottom: 1px solid #dddddd;
         margin-bottom: 10px;
         padding-bottom: 5px;
 
-        h3 {
-            margin: 5px 0;
+
+        .wrapper {
+            display: flex;
+            justify-content: space-between;
+
+            h3 {
+                margin: 5px 0;
+            }
+
         }
+
     }
 
     .sub-options {
@@ -101,10 +124,11 @@ const getPieceName = (piece: ArtifactPiece) => {
             label {
                 flex-basis: 100%;
                 cursor: pointer;
+                white-space: nowrap;
             }
 
             label:hover {
-                background-color: #eeeeee;
+                background-color: rgba(255, 200, 200, 0.6);
             }
 
             input[type=number] {
@@ -112,7 +136,7 @@ const getPieceName = (piece: ArtifactPiece) => {
             }
 
             &.selected {
-                background-color: #ffcccc;
+                background-color: rgba(255, 200, 200, 0.6);
             }
         }
     }
