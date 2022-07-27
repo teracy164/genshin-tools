@@ -114,7 +114,6 @@ const changeArtifact = (src: GenshinOpenData.GenshinRecord) => {
     .sub-options {
         display: flex;
         flex-wrap: wrap;
-        padding: 0 5px;
 
         .sub-option {
             width: 100%;
