@@ -11,9 +11,10 @@
             <Score :score="totalScore" :borders="{ good: 140, amazing: 170, god: 200 }" />
         </div>
         <div style="position: fixed; bottom: 0; max-width: 100%">
-            <div style="text-align: ;">
-                <input id="checkCollapse" type="checkbox" v-model="param.collapse" />
-                <label for="checkCollapse">{{ param.collapse ? '∧' : '∨' }}</label>
+            <div style="display: flex; justify-content: end;">
+                <a class="material-icons expand" @click="param.collapse = !param.collapse">
+                    {{ param.collapse ? 'expand_less' : 'expand_more' }}
+                </a>
             </div>
             <div :class="{ collapse: param.collapse }" style="display: flex; flex-wrap: nowrap; overflow-x: auto;">
                 <template v-for="piece of Object.keys(artifacts)">
@@ -112,5 +113,14 @@ calcTotalScore();
 
 .character {
     font-size: 1.3em;
+}
+
+.expand {
+    cursor: pointer;
+}
+
+.expand:hover {
+    background-color: #ffeeee;
+    border-radius: 3px;
 }
 </style>

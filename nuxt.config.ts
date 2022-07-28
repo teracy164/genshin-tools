@@ -8,7 +8,10 @@ export default defineNuxtConfig({
       meta: [
         { name: 'description', content: '原神の聖遺物スコア計算ツールです。簡単な入力で聖遺物の強さが判定できます。' },
       ],
-      link: [{ rel: 'icon', type: 'image/png', href: '/assets/favicon.ico' }],
+      link: [
+        { rel: 'icon', type: 'image/png', href: '/assets/favicon.ico' },
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/icon?family=Material+Icons' },
+      ],
     },
   },
   css: ['@/assets/css/styles.scss'],
