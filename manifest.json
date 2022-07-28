@@ -1,6 +1,6 @@
 {
   "node_modules/nuxt/dist/app/entry.mjs": {
-    "file": "_nuxt/entry.3b6d247c.mjs",
+    "file": "_nuxt/entry.9bda1a19.mjs",
     "src": "node_modules/nuxt/dist/app/entry.mjs",
     "isEntry": true,
     "dynamicImports": [
@@ -8,11 +8,11 @@
       "virtual:nuxt:/home/runner/work/genshin-tools/genshin-tools/.nuxt/error-component.mjs"
     ],
     "css": [
-      "_nuxt/entry.d0e76cde.css"
+      "_nuxt/entry.0321cd00.css"
     ]
   },
   "virtual:nuxt:/home/runner/work/genshin-tools/genshin-tools/.nuxt/error-component.mjs": {
-    "file": "_nuxt/error-component.d912dc29.mjs",
+    "file": "_nuxt/error-component.1b96c02d.mjs",
     "src": "virtual:nuxt:/home/runner/work/genshin-tools/genshin-tools/.nuxt/error-component.mjs",
     "isDynamicEntry": true,
     "imports": [
@@ -20,22 +20,22 @@
     ]
   },
   "pages/index.vue": {
-    "file": "_nuxt/index.634c65eb.mjs",
+    "file": "_nuxt/index.d880cab8.mjs",
     "src": "pages/index.vue",
     "isDynamicEntry": true,
     "imports": [
       "node_modules/nuxt/dist/app/entry.mjs"
     ],
     "css": [
-      "_nuxt/index.a74f834c.css"
+      "_nuxt/index.2fc5e966.css"
     ]
   },
   "node_modules/nuxt/dist/app/entry.css": {
-    "file": "_nuxt/entry.d0e76cde.css",
+    "file": "_nuxt/entry.0321cd00.css",
     "src": "node_modules/nuxt/dist/app/entry.css"
   },
   "pages/index.css": {
-    "file": "_nuxt/index.a74f834c.css",
+    "file": "_nuxt/index.2fc5e966.css",
     "src": "pages/index.css"
   }
 }
