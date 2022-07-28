@@ -4,17 +4,18 @@
 
     <div ref="elMain" class="main">
         <div class="title-area">
-            <select @change="selectCharacter($event)">
-                <option></option>
+            <select class="character clear" @change="selectCharacter($event)">
+                <option>(キャラを選択)</option>
                 <option v-for="c of $dictionary.characters" :value="c.id">{{ c[$language.selected] }}</option>
             </select>
-            <span class="score"
-                :class="{ good: totalScore >= 140, amazing: totalScore >= 170, god: totalScore >= 200 }">
-                {{ totalScore }}
-            </span>
+            <Score :score="totalScore" :borders="{ good: 140, amazing: 170, god: 200 }" />
         </div>
         <div style="position: fixed; bottom: 0; max-width: 100%">
-            <div style="display: flex; flex-wrap: nowrap; overflow-x: auto;">
+            <div style="text-align: ;">
+                <input id="checkCollapse" type="checkbox" v-model="param.collapse" />
+                <label for="checkCollapse">{{ param.collapse ? '∧' : '∨' }}</label>
+            </div>
+            <div :class="{ collapse: param.collapse }" style="display: flex; flex-wrap: nowrap; overflow-x: auto;">
                 <template v-for="piece of Object.keys(artifacts)">
                     <ArtifactDetail :artifact="artifacts[piece]" @change:subop="update" />
                 </template>
@@ -40,7 +41,7 @@ const subOptions = [
     { id: 'def', ja: '防御力', en: 'DEF' },
     { id: 'dr', ja: '防御力%', en: 'DEF%' },
 ];
-const param = reactive({ img: '' });
+const param = reactive({ img: '', collapse: false });
 const elMain = ref<HTMLDivElement>(null);
 
 const getInitData = (): { [key: string]: Artifact } => {
@@ -87,6 +88,9 @@ const selectCharacter = (event: Event) => {
         const name = target.zhCN.split('·')[0];
         param.img = `https://bbs.hoyolab.com/hoyowiki/picture/character/${name}/avatar.png`;
         elMain.value.style.backgroundImage = `url('${param.img}')`;
+    } else {
+        param.img = '';
+        elMain.value.style.backgroundImage = '';
     }
     console.log(target, param.img)
 }
@@ -104,5 +108,9 @@ calcTotalScore();
 .title-area {
     display: flex;
     align-items: center;
+}
+
+.character {
+    font-size: 1.3em;
 }
 </style>

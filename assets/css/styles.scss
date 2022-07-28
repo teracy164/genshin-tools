@@ -12,26 +12,25 @@ body {
   background-color: #fff8f8;
 }
 
-.score {
-  color: white;
-  background-color: #999999;
-  box-shadow: 1px 1px 3px lightgray;
-  border-radius: 20px;
-  margin: 2px 5px;
-  padding: 0 5px;
-  min-width: 1.5em;
-  line-height: 2em;
-  text-align: center;
+select {
+  outline: none;
+  border: 0px;
+  border-bottom: 1px solid #dddddd;
 
-  &.good {
-    background-color: #6666ff;
+  &.clear {
+    background-color: rgba(0, 0, 0, 0);
   }
 
-  &.amazing {
-    background-color: #00cc00;
+  option {
+    font-size: unset;
   }
+}
 
-  &.god {
-    background-color: #ff6666;
-  }
+select:focus {
+  border-bottom: 1px solid #ffaaaa;
+}
+
+.text-stroke {
+  text-shadow: 1px 1px 0 #fff, -1px -1px 0 #fff, -1px 1px 0 #fff, 1px -1px 0 #fff, 0px 1px 0 #fff, 0-1px 0 #fff,
+    -1px 0 0 #fff, 1px 0 0 #fff;
 }

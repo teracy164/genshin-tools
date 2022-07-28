@@ -19,3 +19,8 @@ const selectedArtifact = (event) => {
 };
 // const param = reactive({ selected: '' });
 </script>
+<style scoped lang="scss">
+select {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+</style>

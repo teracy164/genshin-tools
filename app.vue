@@ -4,16 +4,16 @@
   </div>
   <div v-else style="height: 100%">
 
-    <header>
+    <!-- <header>
       <h1>Genshin Tools</h1>
       <div class="right-menu">
-        <!-- <select :value="$language.selected" @change="changeLanguage($event)">
+        <select :value="$language.selected" @change="changeLanguage($event)">
           <option value="en">English</option>
           <option value="ja">日本語</option>
           <option value="zhCN">簡体中文</option>
-        </select> -->
+        </select>
       </div>
-    </header>
+    </header> -->
     <main style="height: 100%">
       <NuxtPage />
     </main>

@@ -2,22 +2,21 @@
     <div ref="elArtifact" class="artifact">
         <div class="artifact-type">
             <div class="wrapper">
-                <h3>{{ getPieceName(artifact.piece) }}</h3>
-                <span class="score"
-                    :class="{ good: artifact.score >= 30, amazing: artifact.score >= 40, god: artifact.score >= 50 }">
-                    {{ artifact.score }}
-                </span>
+                <h3 class="text-stroke">{{ getPieceName(artifact.piece) }}</h3>
+                <Score :score="artifact.score" />
             </div>
             <PickArtifacts :artifact="artifact" @change="changeArtifact" />
         </div>
         <div class="sub-options">
             <div class="sub-option" :class="{ selected: op.selected }" v-for="op of artifact.sub">
-                <label>
-                    <input :id="`check-${artifact.piece}-${op.name}`" type="checkbox" v-model="op.selected" />
-                    <label :for="`check-${artifact.piece}-${op.name}`">{{ op.name }}</label>
-                </label>
-                <input type="number" :value="op.score" :disabled="!op.selected" min="0"
-                    @input="changeSubOption($event, op)" />
+                <div class="wrapper">
+                    <label class="text-stroke">
+                        <input :id="`check-${artifact.piece}-${op.name}`" type="checkbox" v-model="op.selected" />
+                        <label :for="`check-${artifact.piece}-${op.name}`">{{ op.name }}</label>
+                    </label>
+                    <input type="number" :value="op.score" :disabled="!op.selected" min="0"
+                        @input="changeSubOption($event, op)" />
+                </div>
             </div>
         </div>
     </div>
@@ -82,12 +81,25 @@ const changeArtifact = (src: GenshinOpenData.GenshinRecord) => {
     elArtifact.value.style.backgroundImage = `url('${param.img}')`;
 }
 </script>
+<style lang="scss">
+.collapse {
+    .artifact {
+        .sub-option {
+            display: none;
+
+            &.selected {
+                display: block;
+            }
+        }
+    }
+}
+</style>
 <style lang="scss" scoped>
 .artifact {
     margin: 2px;
     border: 1px solid #ffaaaa;
     border-radius: 10px;
-    background-color: rgba(255, 200, 200, 0.6);
+    background-color: rgba(255, 200, 200, 0.2);
     padding: 5px;
     max-width: 12em;
     font-size: 0.9em;
@@ -117,25 +129,29 @@ const changeArtifact = (src: GenshinOpenData.GenshinRecord) => {
 
         .sub-option {
             width: 100%;
-            display: flex;
-            margin-bottom: 3px;
 
-            label {
-                flex-basis: 100%;
-                cursor: pointer;
-                white-space: nowrap;
-            }
+            .wrapper {
+                width: 100%;
+                display: flex;
+                margin-bottom: 3px;
 
-            label:hover {
-                background-color: rgba(255, 200, 200, 0.6);
-            }
+                label {
+                    flex-basis: 100%;
+                    cursor: pointer;
+                    white-space: nowrap;
+                }
 
-            input[type=number] {
-                width: 3em;
-            }
+                label:hover {
+                    background-color: rgba(255, 200, 200, 0.6);
+                }
 
-            &.selected {
-                background-color: rgba(255, 200, 200, 0.6);
+                input[type=number] {
+                    width: 3em;
+                }
+
+                &.selected {
+                    background-color: rgba(255, 200, 200, 0.6);
+                }
             }
         }
     }
