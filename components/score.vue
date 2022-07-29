@@ -8,7 +8,7 @@
     </div>
 </template>
 <script setup lang="ts">
-const props = withDefaults(defineProps<{ score: number, borders: { good: number; amazing: number; god: number; } }>(), {
+const props = withDefaults(defineProps<{ score: number, borders?: { good: number; amazing: number; god: number; } }>(), {
     score: 0,
     borders: () => ({
         good: 30,

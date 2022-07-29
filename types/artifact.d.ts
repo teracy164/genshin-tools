@@ -1,4 +1,5 @@
-export type ArtifactPiece = 'flower' | 'plume' | 'eon' | 'goblet' | 'circlet';
+import { ArtifactPiece } from '~~/constants/artifacts';
+
 export interface ArtifactSubOption {
   id: string;
   name: string;
@@ -16,4 +17,12 @@ export interface Artifact {
   score: number;
   /** サブOP */
   sub: ArtifactSubOption[];
+}
+export interface Artifacts {
+  characterId: string;
+  [ArtifactPiece.FLOWER]: Artifact;
+  [ArtifactPiece.PLUME]: Artifact;
+  [ArtifactPiece.EON]: Artifact;
+  [ArtifactPiece.GOBLET]: Artifact;
+  [ArtifactPiece.CIRCLET]: Artifact;
 }

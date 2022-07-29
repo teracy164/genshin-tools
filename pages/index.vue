@@ -1,10 +1,7 @@
 <template>
-    <!-- <p>このサイトは以下サイトのデータを使用しています。</p>
-    <a target="_blank" href="https://genshin-dictionary.com/opendata/">https://genshin-dictionary.com/opendata/</a> -->
-
     <div ref="elMain" class="main">
         <div class="title-area">
-            <select class="character clear" @change="selectCharacter($event)">
+            <select class="character clear" :value="artifacts.characterId" @change="selectCharacter($event)">
                 <option>(キャラを選択)</option>
                 <option v-for="c of $dictionary.characters" :value="c.id">{{ c[$language.selected] }}</option>
             </select>
@@ -17,7 +14,7 @@
                 </a>
             </div>
             <div :class="{ collapse: param.collapse }" style="display: flex; flex-wrap: nowrap; overflow-x: auto;">
-                <template v-for="piece of Object.keys(artifacts)">
+                <template v-for="piece of pieces">
                     <ArtifactDetail :artifact="artifacts[piece]" @change:subop="update" />
                 </template>
             </div>
@@ -25,28 +22,21 @@
     </div>
 </template>
 <script setup lang="ts">
-import { Artifact, ArtifactPiece } from '~~/types/artifact';
+import { Artifact, Artifacts } from '~~/types/artifact';
+import { subOptions, ArtifactPiece } from '~~/constants/artifacts';
 
-const { $dictionary, $language } = useNuxtApp();
-
-const storageKeyData = 'genshin-storage-data';
-const subOptions = [
-    { id: 'cr', ja: '会心率', en: 'CRIT Rate' },
-    { id: 'cd', ja: '会心ダメ', en: 'CIT DMG' },
-    { id: 'em', ja: '元素熟知', en: 'Elemental Mastery', zhCH: '元素精通' },
-    { id: 'er', ja: '元素チャ効率', en: 'Energy Recharge' },
-    { id: 'hp', ja: 'HP', en: 'HP' },
-    { id: 'hpr', ja: 'HP%', en: 'HP%' },
-    { id: 'atk', ja: '攻撃力', en: 'ATK' },
-    { id: 'ar', ja: '攻撃力%', en: 'ATK%' },
-    { id: 'def', ja: '防御力', en: 'DEF' },
-    { id: 'dr', ja: '防御力%', en: 'DEF%' },
-];
+const { $dictionary, $language, $storage } = useNuxtApp();
 const param = reactive({ img: '', collapse: false });
 const elMain = ref<HTMLDivElement>(null);
 
-const getInitData = (): { [key: string]: Artifact } => {
-    const pieces: ArtifactPiece[] = ['flower', 'plume', 'eon', 'goblet', 'circlet'];
+const pieces: ArtifactPiece[] = [
+    ArtifactPiece.FLOWER,
+    ArtifactPiece.PLUME,
+    ArtifactPiece.EON,
+    ArtifactPiece.GOBLET,
+    ArtifactPiece.CIRCLET,
+];
+const getInitData = (): Artifacts => {
     return pieces.reduce((artifacts, piece) => {
         artifacts[piece] = {
             piece,
@@ -56,35 +46,29 @@ const getInitData = (): { [key: string]: Artifact } => {
             sub: subOptions.map(op => ({ id: op.id, name: op[$language.selected], score: null, selected: false, }))
         } as Artifact;
         return artifacts;
-    }, {});
+    }, { characterId: '' } as Artifacts);
 }
 
-const totalScore = useState('totalScore', () => 0);
-const artifacts = useState<{ [key: string]: Artifact }>('artifacts', () => {
-    // 前回値が存在する場合は復元
-    const tmp = localStorage.getItem(storageKeyData);
-    if (tmp) {
-        return JSON.parse(tmp);
-    } else {
-        return getInitData();
-    }
-});
-
 const update = () => {
-    localStorage.setItem(storageKeyData, JSON.stringify(artifacts.value));
-
+    $storage.updateArtifacts(artifacts.value)
     // 再計算
     calcTotalScore();
 }
 
 const calcTotalScore = () => {
-    const score = Object.values(artifacts.value).reduce((total, artifact) => total + artifact.score, 0);
+    const score = pieces.reduce((total, piece) => total + artifacts.value[piece].score, 0);
     totalScore.value = Math.floor(score * 10) / 10;
+
 }
 
 const selectCharacter = (event: Event) => {
     const characterId = (event.target as HTMLSelectElement).value;
+    setCharacter(characterId);
+}
+
+const setCharacter = (characterId: string) => {
     const target = $dictionary.characters.find(c => c.id === characterId);
+    artifacts.value.characterId = characterId;
     if (target) {
         const name = target.zhCN.split('·')[0];
         param.img = `https://bbs.hoyolab.com/hoyowiki/picture/character/${name}/avatar.png`;
@@ -93,11 +77,22 @@ const selectCharacter = (event: Event) => {
         param.img = '';
         elMain.value.style.backgroundImage = '';
     }
-    console.log(target, param.img)
+    $storage.updateArtifacts(artifacts.value)
 }
 
-// 初期表示時の計算
-calcTotalScore();
+const totalScore = useState('totalScore', () => 0);
+const artifacts = useState<Artifacts>('artifacts', () => $storage.getArtifacts() || getInitData());
+
+onMounted(() => {
+    if (artifacts) {
+        setCharacter(artifacts.value.characterId)
+        // 初期表示時の計算
+        calcTotalScore();
+    }
+})
+</script>
+<script lang="ts">
+
 </script>
 <style scoped lang="scss">
 .main {

@@ -1,23 +1,25 @@
 <template>
-    <select @change="selectedArtifact($event)">
+    <select :value="artifact.typeId" @change="selectedArtifact($event)">
         <option></option>
         <option v-for="artifact of $dictionary.artifacts" :value="artifact.id">{{ artifact[$language.selected] }}
         </option>
     </select>
 </template>
 <script setup lang="ts">
+import { Artifact } from '~~/types/artifact';
+
 const { $dictionary, $language } = useNuxtApp();
-const prop = defineProps({ artifact: {} });
+const props = defineProps({ artifact: Object });
+const artifact = props.artifact as Artifact;
 
 const emit = defineEmits(['input:artifact', 'change']);
 const selectedArtifact = (event) => {
-    const id = (event.target as HTMLSelectElement).value;
-    const target = $dictionary.artifacts.find(a => a.id === id);
-    console.log(target)
+    const typeId = (event.target as HTMLSelectElement).value;
+    const target = $dictionary.artifacts.find(a => a.id === typeId);
     emit('input:artifact', target);
     emit('change', target);
 };
-// const param = reactive({ selected: '' });
+
 </script>
 <style scoped lang="scss">
 select {

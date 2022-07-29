@@ -22,17 +22,17 @@
     </div>
 </template>
 <script setup lang="ts">
-import { Artifact, ArtifactPiece, ArtifactSubOption } from '~~/types/artifact';
+import { Artifact, ArtifactSubOption } from '~~/types/artifact';
 import { GenshinOpenData } from '~~/types/genshin-data';
+import { artifactPieces, ArtifactPiece } from '~~/constants/artifacts';
 
-const { $language } = useNuxtApp();
+const { $language, $dictionary } = useNuxtApp();
 
-const props = defineProps({ artifact: Object });
-const artifact = props.artifact as Artifact;
 const param = reactive({ img: '' });
 const elArtifact = ref<HTMLDivElement>(null);
-
 const emit = defineEmits(['change:subop']);
+const props = defineProps({ artifact: Object });
+const artifact = props.artifact as Artifact;
 
 const changeSubOption = (event: Event, op: ArtifactSubOption) => {
     const el = event.target as HTMLInputElement
@@ -58,28 +58,32 @@ const changeSubOption = (event: Event, op: ArtifactSubOption) => {
 };
 
 const getPieceName = (piece: ArtifactPiece) => {
-    const names = {
-        'flower': { ja: '花', en: 'Flower' },
-        'plume': { ja: '羽', en: 'Plume' },
-        'eon': { ja: '時計', en: 'Eon' },
-        'goblet': { ja: '杯', en: 'Goblet' },
-        'circlet': { ja: '冠', en: 'Circlet' },
-    };
-    console.log(piece)
-    return names[piece][$language.selected];
+    artifactPieces[piece][$language.selected] || ''
 };
 
 const changeArtifact = (src: GenshinOpenData.GenshinRecord) => {
-    const pieces = {
-        'flower': 'flower_of_life',
-        'plume': 'plume_of_death',
-        'eon': 'sands_of_eon',
-        'goblet': 'goblet_of_eonothem',
-        'circlet': 'circlet_of_logos',
-    };
-    param.img = `https://bbs.hoyolab.com/hoyowiki/picture/reliquary/${src.en}/${pieces[artifact.piece]}_icon.png`
-    elArtifact.value.style.backgroundImage = `url('${param.img}')`;
+    artifact.typeId = src.id;
+    setArtifactImg(src);
+
+    emit('change:subop');
 }
+
+const setArtifactImg = (src: GenshinOpenData.GenshinRecord) => {
+    if (src) {
+        param.img = `https://bbs.hoyolab.com/hoyowiki/picture/reliquary/${src.en}/${artifactPieces[artifact.piece].id}_icon.png`
+        elArtifact.value.style.backgroundImage = `url('${param.img}')`;
+    } else {
+        param.img = '';
+        elArtifact.value.style.backgroundImage = '';
+    }
+}
+
+onMounted(() => {
+    if (artifact) {
+        const target = $dictionary.artifacts.find(a => a.id === artifact.typeId);
+        setArtifactImg(target);
+    }
+})
 </script>
 <style lang="scss">
 .collapse {
