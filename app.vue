@@ -15,7 +15,9 @@
       </div>
     </header> -->
     <main style="height: 100%">
-      <NuxtPage />
+      <div class="wrapper">
+        <NuxtPage />
+      </div>
     </main>
   </div>
 </template>
@@ -35,7 +37,7 @@ isLoading = false;
 //   $language.changeLanguage(value);
 // }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 header {
   background-color: #fff0f0;
   box-shadow: 1px 0px 5px 0px lightgray;
@@ -51,6 +53,11 @@ header {
 }
 
 main {
-  padding: 10px;
+  overflow: hidden;
+
+  .wrapper {
+    margin: 10px;
+    height: 100%;
+  }
 }
 </style>

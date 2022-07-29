@@ -10,8 +10,8 @@
             </select>
             <Score :score="totalScore" :borders="{ good: 140, amazing: 170, god: 200 }" />
         </div>
-        <div style="position: fixed; bottom: 0; max-width: 100%">
-            <div style="display: flex; justify-content: end;">
+        <div style="position: fixed; left: 0; bottom: 0; max-width: 100vw">
+            <div style="display: flex; justify-content: start;">
                 <a class="material-icons expand" @click="param.collapse = !param.collapse">
                     {{ param.collapse ? 'expand_less' : 'expand_more' }}
                 </a>
@@ -109,10 +109,12 @@ calcTotalScore();
 .title-area {
     display: flex;
     align-items: center;
+    max-width: 100%;
 }
 
 .character {
-    font-size: 1.3em;
+    font-size: 1.2em;
+    max-width: calc(100vw - 4.5em);
 }
 
 .expand {
